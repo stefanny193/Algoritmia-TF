@@ -48,3 +48,128 @@ nombres_apellidos = []
 for a in range(len(nombres_finales)):
   nombres_apellidos.append((nombres_finales[a].capitalize() + ' ' +  apellidos_finales[a].capitalize()))
 
+diccionario_materias = [ [ { 'Álgebra y Trigonometría': 3 },
+    { 'Cálculo Diferencial': 3 },
+    { 'Geometría Vectorial y Analítica': 3 },
+    { 'Vivamos la Universidad': 1 },
+    { 'Inglés I': 1 },
+    { 'Lectoescritura': 3 },
+    { 'Introducción a la Ingeniería Industrial': 1 } ],
+  [ { 'Gestión de las Organizaciones': 3 },
+    { 'Habilidades Gerenciales': 3 },
+    { 'Álgebra Lineal': 3 },
+    { 'Cálculo Integral': 3 },
+    { 'Descubriendo la Física': 3 },
+    { 'Inglés II': 1 } ],
+  [ { 'Gestión Contable': 3 },
+    { 'Física Mecánica': 3 },
+    { 'Inglés III': 1 },
+    { 'Algoritmia y Programación': 3 },
+    { 'Probabilidad e Inferencia Estadística': 3 },
+    { 'Teoría General de Sistemas': 3 } ],
+  [ { 'Ingeniería Económica': 3 },
+    { 'Electiva en Física': 3 },
+    { 'Inglés IV': 1 },
+    { 'Diseño de Experimentos y Análisis de Regresión': 3 },
+    { 'Optimización': 3 },
+    { 'Gestión de Métodos y Tiempos': 4 } ],
+  [ { 'Gestión Financiera': 3 },
+    { 'Laboratorio Integrado de Física': 1 },
+    { 'Inglés V': 1 },
+    { 'Formación Ciudadana y Constitucional': 1 },
+    { 'Dinámica de Sistemas': 3 },
+    { 'Muestreo y Series de Tiempo': 3 },
+    { 'Procesos Estocásticos y Análisis de Decisión': 3 },
+    { 'Gestión por Procesos': 3 } ],
+  [ { 'Gestión Tecnológica': 3 },
+    { 'Legislación': 3 },
+    { 'Electiva en Humanidades I': 3 },
+    { 'Inglés VI': 1 },
+    { 'Simulación Discreta': 3 },
+    { 'Formulación de Proyectos de Investigación': 3 },
+    { 'Normalización y Control de la Calidad': 3 } ],
+  [ { 'Formulación y Evaluación de Proyectos de Inversión': 3 },
+    { 'Emprendimiento': 2 },
+    { 'Electiva en Humanidades II': 3 },
+    { 'Énfasis Profesional I': 3 },
+    { 'Electiva Complementaria I': 3 },
+    { 'Diseño de Sistemas Productivos': 3 } ],
+  [ { 'Gestión de Proyectos': 3 },
+    { 'Electiva en Humanidades III': 3 },
+    { 'Énfasis Profesional I': 3 },
+    { 'Electiva Complementaria I': 3 },
+    { 'Administración de la Producción y del Servicio': 3 } ],
+  [ { 'Electiva en Humanidades IV': 3 },
+    { 'Énfasis Profesional I': 3 },
+    { 'Electiva Complementaria I': 3 },
+    { 'Gestión de la Cadena de Abastecimiento': 3 },
+    { 'Ingeniería del Mejoramiento Continuo': 3 } ],
+  [ { 'Práctica Profesional': 12 } ] ]
+
+fecha = datetime.now().strftime("%Y%m%d")
+estudiantes_matriculados = 0
+for nivel in diccionario_materias:
+  nivel_numero = diccionario_materias.index(nivel) + 1
+  ruta_nivel = str(nivel_numero)
+  try:
+    os.makedirs("Ruta Trabajo Final/" + ruta_nivel)
+  except:
+    print(ruta_nivel)
+  numero_materia = 1
+  estudiantes = 1000 * porcentajes_semestre[nivel_numero - 1] / 100
+  estudiantes_matriculados += estudiantes_matriculados
+  for materia_dict in nivel:
+    indice_nombres = estudiantes_matriculados
+    claves = list(materia_dict.keys())
+    materia = claves[0]
+    creditos = materia_dict[materia]
+    grupo = 1
+    nombre_materia_final = []
+    codigos_asignatura_final = []
+    horas_trabajadas_final = []
+    horas_independientes_final = []
+    numero_estudiates_final = []
+    codigo_curso_final = []
+    total_cursos_final = []
+    fecha_creacion_final = []
+    nombres_estudiantes = []
+    niveles = []
+    for i in range(int(estudiantes)):
+      nombres_estudiantes.append(nombres_apellidos[indice_nombres])
+      indice_nombres += 1
+      niveles.append(nivel_numero)
+      codigo_asignatura_unico = (materia[:3]).upper() + str(ruta_nivel) + str(creditos) + str(numero_materia)
+      codigos_asignatura_final.append((materia[:3]).upper() + str(ruta_nivel) + str(creditos) + str(numero_materia))
+      try:
+        horas_trabajadas_final.append(horas_trabajadas[creditos - 1])
+        horas_independientes_final.append(horas_independientes[creditos - 1])
+      except:
+        horas_trabajadas_final.append(0)
+        horas_independientes_final.append(0)
+      numero_estudiates_final.append(int(estudiantes))
+      codigo_curso_final.append(grupo)
+      total_cursos_final.append(math.ceil(estudiantes / cupos_semestre[nivel_numero - 1]))
+      fecha_creacion_final.append(fecha)
+      grupo += 1
+    data = {
+      'Nombres y Apellidos': nombres_estudiantes,
+      'Nivel': nivel_numero,
+      'Grupo de asignatura': codigo_curso_final,
+      'CA': codigos_asignatura_final,
+      'HTD': horas_trabajadas_final,
+      'HTI': horas_independientes_final,
+      'NTE': numero_estudiates_final,
+      'CC': codigo_curso_final,
+      'TCA': total_cursos_final,
+      'FC': fecha_creacion_final
+    }
+    try:
+      os.makedirs("Ruta Trabajo Final/" + str(ruta_nivel)+'/'+materia)
+    except:
+      print("Ruta Trabajo Final/" + str(ruta_nivel)+'/'+materia)
+    df = pd.DataFrame(data)
+    df.to_csv("Ruta Trabajo Final/" + str(ruta_nivel) + '/' + materia + '/' +
+              codigo_asignatura_unico + "-" + materia.replace(" ", "").capitalize() +
+              "-" + str(int(estudiantes)) + "-" + '1.csv')
+    df.to_excel("Ruta Trabajo Final/" + str(ruta_nivel) + '/' + materia + '/datos.xlsx')
+    numero_materia += 1
